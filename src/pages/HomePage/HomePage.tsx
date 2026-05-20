@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchMovies } from '../../redux/slices/catalog-slice';
-import { AppDispatch, RootState } from '../../redux/store';
-import { MovieCard } from '../../components/MovieCard/MovieCard';
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchMovies } from '../../redux/slices/catalog-slice'
+import { AppDispatch, RootState } from '../../redux/store'
+import { MovieCard } from '../../components/MovieCard/MovieCard'
 
 export const HomePage = () => {
   const dispatch = useDispatch<AppDispatch>();

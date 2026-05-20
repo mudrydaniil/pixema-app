@@ -1,18 +1,18 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
-import { store } from './redux/store';
-import { App } from './App';
-import './assets/styles/index.scss'; // Подключаем глобальные стили и шрифт
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { Provider } from 'react-redux'
+import { store } from './redux/store'
+import { App } from './App'
+import './assets/styles/index.scss'
 
-ReactDOM.createRoot(document.getElementById('app')!).render(
-  <React.StrictMode>
-    <Provider store={store}>
-      {/* Добавь basename, соответствующий твоему репозиторию/папке */}
-      <BrowserRouter basename="/PixemaProject"> 
+const rootElement = document.getElementById('app')
+
+if (rootElement) {
+  ReactDOM.createRoot(rootElement).render(
+    <React.StrictMode>
+      <Provider store={store}>
         <App />
-      </BrowserRouter>
-    </Provider>
-  </React.StrictMode>
-);
+      </Provider>
+    </React.StrictMode>
+  )
+}

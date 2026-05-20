@@ -1,7 +1,7 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { get } from '../../config/http-client';
-import { API } from '../../config/api';
-import { CatalogState } from '../../types/movie';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { get } from '../../config/http-client'
+import { API } from '../../config/api'
+import { CatalogState } from '../../types/movie'
 
 const initialState: CatalogState = {
     movies: [],
@@ -36,7 +36,6 @@ const catalogSlice = createSlice({
             })
             .addCase(fetchMovies.fulfilled, (state, action) => {
                 state.isLoading = false;
-                // Берем ровно 10 фильмов для идеальной сетки по ТЗ
                 state.movies = action.payload.items.slice(0, 10); 
                 state.total = action.payload.total;
             })

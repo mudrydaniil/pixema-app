@@ -14,7 +14,7 @@ export const Layout = () => {
                     <UserPick />
                 </header>
                 <section className={s.content}>
-                    <Outlet /> {/* Здесь будут меняться наши страницы (Home, Trends и т.д.) */}
+                    <Outlet />
                 </section>
             </main>
         </div>

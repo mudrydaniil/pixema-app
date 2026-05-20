@@ -3,17 +3,17 @@
 .userPick {
   display: flex;
   align-items: center;
-  justify-content: space-between; // Расталкивает инфо и стрелку по краям
-  width: 264px; // Как на скрине image_2ab192.png
+  justify-content: space-between;
+  width: 264px;
   height: 56px;
   cursor: pointer;
-  padding: 0 4px; // Небольшой отступ внутри, чтобы элементы не жались к границам контейнера
+  padding: 0 4px;
 }
 
 .info {
   display: flex;
   align-items: center;
-  gap: 20px; // Расстояние между аватаром и именем
+  gap: 20px;
 }
 
 .avatar {
@@ -33,11 +33,11 @@
   color: $white;
   font-weight: 600;
   font-size: 16px;
-  white-space: nowrap; // Чтобы имя не переносилось
+  white-space: nowrap;
 }
 
 .arrow {
   width: 24px;
   height: 24px;
-  color: $light; // #AFB2B6
+  color: $light;
 }

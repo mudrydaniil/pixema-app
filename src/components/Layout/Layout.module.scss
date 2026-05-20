@@ -10,17 +10,16 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  // Увеличим отступы, чтобы контент не прилипал к краям
   padding: 40px 62px; 
 }
 
 .header {
   display: flex;
   align-items: center;
-  justify-content: space-between; // Это заставит Поиск уйти влево, а Юзера — вправо
-  gap: 40px; // Расстояние между ними, если экран будет сужаться
+  justify-content: space-between;
+  gap: 40px;
   margin-bottom: 48px;
-  width: 100%; // Обязательно растягиваем на всю ширину
+  width: 100%;
 }
 
 .content {

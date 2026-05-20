@@ -1,25 +1,25 @@
 @use '../../assets/styles/variables' as *;
 
 .sidebar {
-    width: 274px; // Ширина из макета
+    width: 274px;
     height: 100vh;
-    position: sticky; // Чтобы меню не уезжало при скролле контента
+    position: sticky;
     top: 0;
     left: 0;
 
     display: flex;
     flex-direction: column;
-    padding: 48px 38px 64px; // Отступы: сверху 48, по бокам 38, снизу 64
+    padding: 48px 38px 64px;
     background-color: $black;
-    border-right: 1px solid $secondary; // Тонкая линия разделения (по желанию)
+    border-right: 1px solid $secondary;
 }
 
 .nav {
-    margin-top: 64px; // Расстояние от логотипа до первого пункта меню
+    margin-top: 64px;
     display: flex;
     flex-direction: column;
-    gap: 24px; // Расстояние между пунктами меню
-    flex-grow: 1; // Занимает всё свободное место, толкая футер вниз
+    gap: 24px;
+    flex-grow: 1;
 }
 
 .footer {

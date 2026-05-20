@@ -1,13 +1,13 @@
-import { configureStore } from '@reduxjs/toolkit';
-import catalogReducer from './slices/catalog-slice';
+import { configureStore } from '@reduxjs/toolkit'
+import catalogReducer from './slices/catalog-slice'
+import movieReducer from './slices/movie-slice'
 
 export const store = configureStore({
   reducer: {
-    // Ключ catalog будет отвечать за состояние списка фильмов и фильтрацию
     catalog: catalogReducer,
+    movie: movieReducer,
   },
 });
 
-// Типы для использования в приложении и кастомных хуках
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch

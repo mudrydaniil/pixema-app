@@ -54,6 +54,7 @@
     "react-hook-form": "^7.75.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.15.0",
-    "sass": "^1.99.0"
+    "sass": "^1.99.0",
+    "swiper": "^12.1.4"
   }
 }

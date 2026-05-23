@@ -1,44 +1,25 @@
 .wrapper {
   width: 100%;
-  max-width: calc(100vw - 280px); 
-  margin: 0; 
-  padding: 40px 60px 40px 40px;
+  margin: 0;
   box-sizing: border-box;
   background-color: #000000;
   color: #ffffff;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  overflow-x: hidden;
-
-  @media (max-width: 1100px) {
-    max-width: 100%;
-    padding: 24px;
-  }
 }
 
 .movieContainer {
   display: flex;
-  gap: 42px; 
+  gap: 42px;
   width: 100%;
-  margin-bottom: 56px;
-
-  @media (max-width: 830px) {
-    flex-direction: column;
-    align-items: center;
-    gap: 32px;
-  }
+  box-sizing: border-box;
 }
 
 .leftColumn {
-  flex: 0 0 266px; 
+  flex: 0 0 266px;
   width: 266px;
   display: flex;
   flex-direction: column;
-  gap: 32px; 
-
-  @media (max-width: 830px) {
-    width: 100%;
-    max-width: 266px;
-  }
+  gap: 32px;
 }
 
 .posterWrapper {
@@ -63,8 +44,8 @@
 
   .btnAction {
     flex: 1;
-    height: 56px; 
-    background-color: #242426; 
+    height: 56px;
+    background-color: #242426;
     border: none;
     border-radius: 14px;
     cursor: pointer;
@@ -85,8 +66,8 @@
 }
 
 .rightColumn {
-  flex: 1; 
-  min-width: 0;
+  flex: 1;
+  min-width: 0; // КРИТИЧЕСКИ ВАЖНО: заставляет флекс сжиматься до реальных размеров родителя страницы
   display: flex;
   flex-direction: column;
 
@@ -121,7 +102,7 @@
   }
 
   .ratingKp {
-    background-color: #00bb34; 
+    background-color: #00bb34;
     color: #ffffff;
   }
 
@@ -146,9 +127,10 @@
 .infoTable {
   width: 100%;
   border-collapse: collapse;
+  margin-bottom: 56px;
 
   tr {
-    border-bottom: 1px solid #1c1c1e; 
+    border-bottom: 1px solid #1c1c1e;
     
     &:last-child {
       border-bottom: none;
@@ -163,7 +145,7 @@
 
     &:first-child {
       color: #7e7e82;
-      width: 170px; 
+      width: 170px;
       padding-right: 20px;
     }
 
@@ -173,11 +155,9 @@
   }
 }
 
+// === СТИЛИ ДЛЯ РЕКОМЕНДАЦИЙ ПО ФИГМЕ ===
 .recommendations {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  margin-top: 24px;
   box-sizing: border-box;
 
   .recHeader {
@@ -197,7 +177,7 @@
     .recArrows {
       display: flex;
       gap: 16px;
-      margin-right: 4px; 
+      margin-right: 4px;
 
       .arrowBtn {
         background: transparent;
@@ -217,78 +197,23 @@
       }
     }
   }
+}
 
-  .recGrid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 32px; 
-    width: 100%;
-    box-sizing: border-box;
+.sliderContainer {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
 
-    @media (max-width: 960px) {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 24px;
-    }
+.swiperRoot {
+  width: 100%;
+  overflow: hidden !important; 
+  padding-bottom: 24px;
+}
 
-    @media (max-width: 480px) {
-      grid-template-columns: minmax(0, 1fr);
-    }
-  }
-
-  .recCard {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    min-width: 0;
-  }
-
-  .recPosterWrapper {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 2 / 3;
-    border-radius: 16px;
-    overflow: hidden;
-    margin-bottom: 16px;
-    background-color: #1a1a1a;
-
-    .recCardRating {
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      background-color: #00bb34;
-      color: #ffffff;
-      padding: 4px 8px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 700;
-      line-height: 1;
-      z-index: 2;
-    }
-
-    .recPoster {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-  }
-
-  .recName {
-    font-size: 16px;
-    font-weight: 700;
-    color: #ffffff;
-    margin: 0 0 6px 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .recCardGenres {
-    font-size: 14px;
-    color: #7e7e82;
-    margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+.swiperSlideItem {
+  // Насильно заставляем каждую карточку занимать ровно 1/4 часть ширины родителя
+  // с учетом трех промежутков (gap) по 24px между четырьмя карточками.
+  width: calc((100% - (24px * 3)) / 4) !important;
+  height: max-content !important;
 }

@@ -1,5 +1,10 @@
-import React from 'react'
+import React, { useRef } from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Navigation } from 'swiper/modules'
+import { MovieCard } from '../MovieCard/MovieCard'
 import styles from './MovieDetails.module.scss'
+
+import 'swiper/css'
 
 interface MovieDetailsProps {
   movie: any
@@ -9,7 +14,8 @@ interface MovieDetailsProps {
 }
 
 export const MovieDetails = ({ movie, staff, similarMovies, boxOffice }: MovieDetailsProps): React.ReactElement => {
-  
+  const swiperRef = useRef<any>(null)
+
   const directors = staff
     ?.filter(p => p.professionKey === 'DIRECTOR')
     .slice(0, 2)
@@ -47,6 +53,7 @@ export const MovieDetails = ({ movie, staff, similarMovies, boxOffice }: MovieDe
     <div className={styles.wrapper}>
       <div className={styles.movieContainer}>
         
+        {/* Левая колонка */}
         <div className={styles.leftColumn}>
           <div className={styles.posterWrapper}>
             <img 
@@ -65,6 +72,7 @@ export const MovieDetails = ({ movie, staff, similarMovies, boxOffice }: MovieDe
           </div>
         </div>
 
+        {/* Правая колонка */}
         <div className={styles.rightColumn}>
           <p className={styles.genres}>
             {movie.genres?.map((g: any) => g.genre).join(' • ') || 'Movie Genres'}
@@ -92,7 +100,7 @@ export const MovieDetails = ({ movie, staff, similarMovies, boxOffice }: MovieDe
               </tr>
               <tr>
                 <td>BoxOffice</td>
-                <td className={styles.boxOfficeValue}>{formattedBoxOffice}</td>
+                <td>{formattedBoxOffice}</td>
               </tr>
               <tr>
                 <td>Country</td>
@@ -116,45 +124,53 @@ export const MovieDetails = ({ movie, staff, similarMovies, boxOffice }: MovieDe
               </tr>
             </tbody>
           </table>
-        </div>
-      </div>
 
-      {similarMovies && similarMovies.length > 0 && (
-        <div className={styles.recommendations}>
-          <div className={styles.recHeader}>
-            <h2 className={styles.recTitle}>Recommendations</h2>
-            <div className={styles.recArrows}>
-              <button className={styles.arrowBtn} aria-label="Previous items">←</button>
-              <button className={styles.arrowBtn} aria-label="Next items">→</button>
-            </div>
-          </div>
-          
-          <div className={styles.recGrid}>
-            {similarMovies.slice(0, 4).map((simMovie, index) => {
-              const defaultCardGenres = movie.genres?.map((g: any) => g.genre).join(' • ') || 'Adventure • Action'
-              
-              return (
-                <div key={simMovie.filmId || index} className={styles.recCard}>
-                  <div className={styles.recPosterWrapper}>
-                    <span className={styles.recCardRating}>
-                      {simMovie.ratingKinopoisk || simMovie.ratingImdb || '7.6'}
-                    </span> 
-                    <img 
-                      src={simMovie.posterUrlPreview || simMovie.posterUrl} 
-                      alt={simMovie.nameRu || 'Recommendation poster'} 
-                      className={styles.recPoster} 
-                    />
-                  </div>
-                  <h3 className={styles.recName}>
-                    {simMovie.nameRu || simMovie.nameOriginal || simMovie.nameEn || 'Untitled Movie'}
-                  </h3>
-                  <p className={styles.recCardGenres}>{defaultCardGenres}</p>
+          {/* Блок рекомендаций */}
+          {similarMovies && similarMovies.length > 0 && (
+            <div className={styles.recommendations}>
+              <div className={styles.recHeader}>
+                <h2 className={styles.recTitle}>Recommendations</h2>
+                <div className={styles.recArrows}>
+                  <button onClick={() => swiperRef.current?.slidePrev()} className={styles.arrowBtn} aria-label="Previous items">←</button>
+                  <button onClick={() => swiperRef.current?.slideNext()} className={styles.arrowBtn} aria-label="Next items">→</button>
                 </div>
-              )
-            })}
-          </div>
+              </div>
+              
+              <div className={styles.sliderContainer}>
+                <Swiper
+                  modules={[Navigation]}
+                  onBeforeInit={(swiper) => {
+                    swiperRef.current = swiper
+                  }}
+                  spaceBetween={24}
+                  slidesPerView={4}          // Ровно 4 видимые карточки в ряд
+                  slidesPerGroup={1}         // Перелистывание ровно по одной карточке
+                  watchSlidesProgress={true} // Предотвращает баги отображения краев слайдов
+                  grabCursor={true}
+                  className={styles.swiperRoot}
+                >
+                  {similarMovies.map((simMovie, index) => {
+                    const uniqueId = simMovie.filmId || simMovie.kinopoiskId || index
+                    
+                    const formattedMovie = {
+                      ...simMovie,
+                      kinopoiskId: uniqueId,
+                      genres: simMovie.genres || movie.genres 
+                    }
+
+                    return (
+                      <SwiperSlide key={uniqueId} className={styles.swiperSlideItem}>
+                        <MovieCard movie={formattedMovie} />
+                      </SwiperSlide>
+                    )
+                  })}
+                </Swiper>
+              </div>
+            </div>
+          )}
         </div>
-      )}
+
+      </div>
     </div>
   )
 }

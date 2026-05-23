@@ -23,7 +23,8 @@ export const MoviePage = (): React.ReactElement => {
   useEffect(() => {
     window.scrollTo(0, 0)
 
-    if (id) {
+    // Проверяем, что id действительно существует и не равен строке "undefined"
+    if (id && id !== 'undefined') {
       dispatch(fetchMovieById(id))
       dispatch(fetchMovieStaff(id))
       dispatch(fetchSimilarMovies(id))

@@ -1,5 +1,5 @@
 {
-  "name": "pixemaproject",
+  "name": "pixema-app",
   "version": "1.0.0",
   "description": "",
   "type": "module",
@@ -7,19 +7,20 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mudrydaniil/PixemaProject.git"
+    "url": "git+https://github.com/mudrydaniil/pixema-app.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mudrydaniil/PixemaProject/issues"
+    "url": "https://github.com/mudrydaniil/pixema-app/issues"
   },
-  "homepage": "https://github.com/mudrydaniil/PixemaProject#readme",
+  "homepage": "https://mudrydaniil.github.io/pixema-app",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@testing-library/jest-dom": "^6.9.1",

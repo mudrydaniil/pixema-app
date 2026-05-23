@@ -11,7 +11,7 @@ export default defineConfig({
             typescript: true,
         }),
     ],
-    base: '/PixemaProject/',
+    base: '/pixema-app/',
     server: {
         port: 5173,
     },

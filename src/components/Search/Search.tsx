@@ -6,25 +6,24 @@ import s from './Search.module.scss'
 import FilterIcon from '../../assets/icons/filter.svg?react'
 
 export const Search = () => {
-  const dispatch = useDispatch();
-  const searchQuery = useSelector((state: RootState) => state.catalog.searchQuery);
-  const [localValue, setLocalValue] = useState(searchQuery);
+  const dispatch = useDispatch()
+  const searchQuery = useSelector((state: RootState) => state.catalog.searchQuery)
+  const [localValue, setLocalValue] = useState(searchQuery)
 
-  // Дебаунс: ждем 500мс после ввода, чтобы не перегружать API запросами
   useEffect(() => {
     const timer = setTimeout(() => {
       if (localValue !== searchQuery) {
-        dispatch(clearCatalog()); 
-        dispatch(setSearchQuery(localValue));
+        dispatch(clearCatalog())
+        dispatch(setSearchQuery(localValue))
       }
-    }, 500);
+    }, 500)
 
-    return () => clearTimeout(timer);
-  }, [localValue, dispatch, searchQuery]);
+    return () => clearTimeout(timer)
+  }, [localValue, dispatch, searchQuery])
 
   useEffect(() => {
-    setLocalValue(searchQuery);
-  }, [searchQuery]);
+    setLocalValue(searchQuery)
+  }, [searchQuery])
 
   return (
     <div className={s.searchWrapper}>

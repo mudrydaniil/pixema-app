@@ -1,14 +1,18 @@
 @use '../../assets/styles/variables' as *;
 
 .gridContainer {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-
-    gap: 40px 24px;
-
-    width: 100%;
-    max-width: 1120px;
-
-    margin: 0 auto;
+  display: grid !important;
+  
+  grid-template-columns: repeat(5, 1fr) !important;
+  gap: 40px 24px; 
+  
+  width: 100%;
+  max-width: 1120px;
+  box-sizing: border-box;
+  & > * {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
     box-sizing: border-box;
+  }
 }

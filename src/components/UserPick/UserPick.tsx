@@ -13,5 +13,5 @@ export const UserPick = () => {
 
       <ArrowIcon className={s.arrow} />
     </div>
-  );
-};
+  )
+}

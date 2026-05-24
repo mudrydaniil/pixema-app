@@ -3,7 +3,6 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation } from 'swiper/modules'
 import { MovieCard } from '../MovieCard/MovieCard'
 import styles from './MovieDetails.module.scss'
-
 import 'swiper/css'
 
 interface MovieDetailsProps {

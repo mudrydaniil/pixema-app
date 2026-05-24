@@ -3,28 +3,28 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchMovies, searchMovies } from '../../redux/slices/catalog-slice'
 import { AppDispatch, RootState } from '../../redux/store'
 import { MovieCard } from '../../components/MovieCard/MovieCard'
-import { MovieGrid } from '../../components/MovieGrid/MovieGrid' // Лучшая практика: импорт презентационной сетки
+import { MovieGrid } from '../../components/MovieGrid/MovieGrid'
 
 export const HomePage = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { movies, total, isLoading, error, searchQuery } = useSelector((state: RootState) => state.catalog);
-  const [currentPage, setCurrentPage] = useState(1);
+  const dispatch = useDispatch<AppDispatch>()
+  const { movies, total, isLoading, error, searchQuery } = useSelector((state: RootState) => state.catalog)
+  const [currentPage, setCurrentPage] = useState(1)
 
   useEffect(() => {
-    setCurrentPage(1);
-  }, [searchQuery]);
+    setCurrentPage(1)
+  }, [searchQuery])
 
   useEffect(() => {
     if (searchQuery.trim()) {
-      dispatch(searchMovies({ keyword: searchQuery, page: currentPage }));
+      dispatch(searchMovies({ keyword: searchQuery, page: currentPage }))
     } else {
-      dispatch(fetchMovies(currentPage));
+      dispatch(fetchMovies(currentPage))
     }
-  }, [dispatch, currentPage, searchQuery]);
+  }, [dispatch, currentPage, searchQuery])
 
   const handleShowMore = () => {
-    setCurrentPage(prev => prev + 1);
-  };
+    setCurrentPage(prev => prev + 1)
+  }
 
   return (
     <>
@@ -36,7 +36,6 @@ export const HomePage = () => {
         </p>
       )}
 
-      {/* Передаем карточки внутрь переиспользуемой сетки */}
       <MovieGrid>
         {movies.map((movie, index) => (
           <MovieCard key={`${movie.kinopoiskId}-${index}`} movie={movie} />
@@ -64,5 +63,5 @@ export const HomePage = () => {
 
       {isLoading && <p style={{ textAlign: 'center', color: '#fff', marginTop: '20px' }}>Loading...</p>}
     </>
-  );
-};
+  )
+}

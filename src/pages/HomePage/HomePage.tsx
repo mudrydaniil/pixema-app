@@ -4,7 +4,7 @@ import { fetchMovies, searchMovies } from '../../redux/slices/catalog-slice'
 import { AppDispatch, RootState } from '../../redux/store'
 import { MovieCard } from '../../components/MovieCard/MovieCard'
 import { MovieGrid } from '../../components/MovieGrid/MovieGrid'
-import { Filters } from '../../components/Filters/Filters' // Импортируем фильтры
+import { FiltersSidebar } from '../../components/FiltersSidebar/FiltersSidebar'
 
 export const HomePage = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -22,32 +22,24 @@ export const HomePage = () => {
     if (searchQuery.trim()) {
       dispatch(searchMovies({ keyword: searchQuery, page: currentPage }))
     } else {
-      // Передаем и страницу, и текущие фильтры в Thunk
       dispatch(fetchMovies({ page: currentPage, filters }))
     }
   }, [dispatch, currentPage, searchQuery, filters])
 
   const handleShowMore = () => {
-    setCurrentPage((prev) => prev + 1)
+    setCurrentPage((prev: number) => prev + 1)
   }
 
   return (
     <>
       {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
       
-      {/* Рендерим панель фильтров над сеткой */}
-      <Filters />
+      {/* Боковая шторка фильтров рендерится здесь и управляется из компонента Search */}
+      <FiltersSidebar />
 
-      {!isLoading && movies.length === 0 && searchQuery && (
+      {!isLoading && movies.length === 0 && (
         <p style={{ color: '#fff', textAlign: 'center', marginTop: '40px' }}>
-          No movies found for "{searchQuery}"
-        </p>
-      )}
-
-      {/* Если фильмов нет при выбранных фильтрах */}
-      {!isLoading && movies.length === 0 && !searchQuery && (
-        <p style={{ color: '#fff', textAlign: 'center', marginTop: '40px' }}>
-          No results match the selected filters.
+          No results match the selected criteria.
         </p>
       )}
 

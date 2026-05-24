@@ -4,12 +4,18 @@ import { API } from '../../config/api'
 import { CatalogState } from '../../types/movie'
 
 export interface MovieFilters {
-    type: 'ALL' | 'FILM' | 'TV_SERIES' | 'MINI_SERIES' | 'TV_SHOW'
-    year: string
+    order: 'RATING' | 'YEAR'
+    keyword: string
+    type: 'ALL' | 'FILM' | 'TV_SERIES' | 'MINI_SERIES'
+    yearFrom: string
+    yearTo: string
+    ratingFrom: string
+    ratingTo: string
 }
 
 interface ExtendedCatalogState extends CatalogState {
     searchQuery: string
+    isFiltersOpen: boolean
     filters: MovieFilters
 }
 
@@ -19,34 +25,32 @@ const initialState: ExtendedCatalogState = {
     isLoading: false,
     error: null,
     searchQuery: '',
+    isFiltersOpen: false,
     filters: {
+        order: 'RATING',
+        keyword: '',
         type: 'ALL',
-        year: '',
+        yearFrom: '',
+        yearTo: '',
+        ratingFrom: '',
+        ratingTo: '',
     }
 }
 
-// Универсальный Thunk для загрузки и фильтрации фильмов
 export const fetchMovies = createAsyncThunk(
     'catalog/fetchMovies',
     async ({ page, filters }: { page: number; filters: MovieFilters }, { rejectWithValue }) => {
         try {
-            // Формируем query-параметры для API Кинопоиска
-            const queryParams: string[] = [`page=${page}`]
+            const queryParams: string[] = [`page=${page}`, `order=${filters.order}`]
 
-            if (filters.type !== 'ALL') {
-                queryParams.push(`type=${filters.type}`)
-            }
-            if (filters.year) {
-                // Для фильтрации конкретного года в v2.2/films передается диапазон от и до одинаковым числом
-                queryParams.push(`yearFrom=${filters.year}`)
-                queryParams.push(`yearTo=${filters.year}`)
-            }
-            
-            // Если фильтров нет, можно добавить сортировку по популярности
-            if (filters.type === 'ALL' && !filters.year) {
-                queryParams.push('order=NUM_VOTE')
-            }
+            if (filters.type !== 'ALL') queryParams.push(`type=${filters.type}`)
+            if (filters.keyword) queryParams.push(`keyword=${encodeURIComponent(filters.keyword)}`)
+            if (filters.yearFrom) queryParams.push(`yearFrom=${filters.yearFrom}`)
+            if (filters.yearTo) queryParams.push(`yearTo=${filters.yearTo}`)
+            if (filters.ratingFrom) queryParams.push(`ratingFrom=${filters.ratingFrom}`)
+            if (filters.ratingTo) queryParams.push(`ratingTo=${filters.ratingTo}`)
 
+            // Используем универсальный эндпоинт фильтрации списка
             const url = `${API.MOVIES.LIST}?${queryParams.join('&')}`
             const response = await get(url)
             
@@ -83,13 +87,14 @@ const catalogSlice = createSlice({
                 state.movies = []
             }
         },
-        // Экшен для обновления фильтров
+        setIsFiltersOpen: (state, action: PayloadAction<boolean>) => {
+            state.isFiltersOpen = action.payload
+        },
         setMovieFilters: (state, action: PayloadAction<Partial<MovieFilters>>) => {
             state.filters = { ...state.filters, ...action.payload }
-            state.movies = [] // Очищаем старые фильмы при изменении фильтра
+            state.movies = [] 
             state.total = 0
         },
-        // Сброс фильтров
         resetMovieFilters: (state) => {
             state.filters = initialState.filters
             state.movies = []
@@ -109,7 +114,6 @@ const catalogSlice = createSlice({
             .addCase(fetchMovies.fulfilled, (state, action) => {
                 state.isLoading = false
                 
-                // В эндпоинте v2.2/films массив объектов приходит в поле items
                 const incomingItems = action.payload.data.items || action.payload.data.films || []
                 const normalizedItems = incomingItems.map((movie: any) => ({
                     ...movie,
@@ -156,5 +160,5 @@ const catalogSlice = createSlice({
     },
 })
 
-export const { setSearchQuery, setMovieFilters, resetMovieFilters, clearCatalog } = catalogSlice.actions
+export const { setSearchQuery, setIsFiltersOpen, setMovieFilters, resetMovieFilters, clearCatalog } = catalogSlice.actions
 export default catalogSlice.reducer

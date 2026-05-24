@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setSearchQuery, clearCatalog } from '../../redux/slices/catalog-slice'
-import { RootState } from '../../redux/store'
+import { setSearchQuery, clearCatalog, setIsFiltersOpen } from '../../redux/slices/catalog-slice'
+import { RootState, AppDispatch } from '../../redux/store'
 import s from './Search.module.scss'
 import FilterIcon from '../../assets/icons/filter.svg?react'
 
 export const Search = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
   const searchQuery = useSelector((state: RootState) => state.catalog.searchQuery)
   const [localValue, setLocalValue] = useState(searchQuery)
 
@@ -25,6 +25,11 @@ export const Search = () => {
     setLocalValue(searchQuery)
   }, [searchQuery])
 
+  // Обработчик клика по кнопке фильтров
+  const handleOpenFilters = () => {
+    dispatch(setIsFiltersOpen(true))
+  }
+
   return (
     <div className={s.searchWrapper}>
       <input 
@@ -34,7 +39,12 @@ export const Search = () => {
         value={localValue}
         onChange={(e) => setLocalValue(e.target.value)}
       />
-      <button className={s.filterBtn}>
+      <button 
+        type="button" 
+        className={s.filterBtn} 
+        onClick={handleOpenFilters}
+        title="Open filters"
+      >
         <FilterIcon />
       </button>
     </div>

@@ -35,6 +35,63 @@
   display: block;
 }
 
+.rating {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: #32d74b; 
+  color: #ffffff;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  z-index: 5;
+}
+
+.favoriteBtn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  background: rgba(36, 36, 38, 0.6);
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s ease;
+
+  svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: #ffffff;
+    stroke-width: 2px;
+    transition: all 0.2s ease;
+  }
+
+  &:hover {
+    background: rgba(36, 36, 38, 0.8);
+    transform: scale(1.05);
+
+    svg {
+      stroke: #7b61ff;
+    }
+  }
+
+  &.active {
+    background: rgba(36, 36, 38, 0.6);
+
+    svg {
+      fill: #7b61ff;
+      stroke: #7b61ff;
+    }
+  }
+}
+
 .info {
   display: flex;
   flex-direction: column;

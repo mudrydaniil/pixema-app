@@ -25,7 +25,6 @@ export const Search = () => {
     setLocalValue(searchQuery)
   }, [searchQuery])
 
-  // Обработчик клика по кнопке фильтров
   const handleOpenFilters = () => {
     dispatch(setIsFiltersOpen(true))
   }

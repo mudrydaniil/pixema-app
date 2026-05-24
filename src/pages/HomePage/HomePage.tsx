@@ -13,7 +13,6 @@ export const HomePage = () => {
   )
   const [currentPage, setCurrentPage] = useState(1)
 
-  // При изменении поисковой строки ИЛИ фильтров — сбрасываем пагинацию на 1 страницу
   useEffect(() => {
     setCurrentPage(1)
   }, [searchQuery, filters])
@@ -33,8 +32,6 @@ export const HomePage = () => {
   return (
     <>
       {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
-      
-      {/* Боковая шторка фильтров рендерится здесь и управляется из компонента Search */}
       <FiltersSidebar />
 
       {!isLoading && movies.length === 0 && (

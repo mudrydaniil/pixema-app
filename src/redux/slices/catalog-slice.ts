@@ -50,7 +50,6 @@ export const fetchMovies = createAsyncThunk(
             if (filters.ratingFrom) queryParams.push(`ratingFrom=${filters.ratingFrom}`)
             if (filters.ratingTo) queryParams.push(`ratingTo=${filters.ratingTo}`)
 
-            // Используем универсальный эндпоинт фильтрации списка
             const url = `${API.MOVIES.LIST}?${queryParams.join('&')}`
             const response = await get(url)
             

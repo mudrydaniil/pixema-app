@@ -4,35 +4,50 @@ import { fetchMovies, searchMovies } from '../../redux/slices/catalog-slice'
 import { AppDispatch, RootState } from '../../redux/store'
 import { MovieCard } from '../../components/MovieCard/MovieCard'
 import { MovieGrid } from '../../components/MovieGrid/MovieGrid'
+import { Filters } from '../../components/Filters/Filters' // Импортируем фильтры
 
 export const HomePage = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const { movies, total, isLoading, error, searchQuery } = useSelector((state: RootState) => state.catalog)
+  const { movies, total, isLoading, error, searchQuery, filters } = useSelector(
+    (state: RootState) => state.catalog
+  )
   const [currentPage, setCurrentPage] = useState(1)
 
+  // При изменении поисковой строки ИЛИ фильтров — сбрасываем пагинацию на 1 страницу
   useEffect(() => {
     setCurrentPage(1)
-  }, [searchQuery])
+  }, [searchQuery, filters])
 
   useEffect(() => {
     if (searchQuery.trim()) {
       dispatch(searchMovies({ keyword: searchQuery, page: currentPage }))
     } else {
-      dispatch(fetchMovies(currentPage))
+      // Передаем и страницу, и текущие фильтры в Thunk
+      dispatch(fetchMovies({ page: currentPage, filters }))
     }
-  }, [dispatch, currentPage, searchQuery])
+  }, [dispatch, currentPage, searchQuery, filters])
 
   const handleShowMore = () => {
-    setCurrentPage(prev => prev + 1)
+    setCurrentPage((prev) => prev + 1)
   }
 
   return (
     <>
       {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
       
+      {/* Рендерим панель фильтров над сеткой */}
+      <Filters />
+
       {!isLoading && movies.length === 0 && searchQuery && (
         <p style={{ color: '#fff', textAlign: 'center', marginTop: '40px' }}>
           No movies found for "{searchQuery}"
+        </p>
+      )}
+
+      {/* Если фильмов нет при выбранных фильтрах */}
+      {!isLoading && movies.length === 0 && !searchQuery && (
+        <p style={{ color: '#fff', textAlign: 'center', marginTop: '40px' }}>
+          No results match the selected filters.
         </p>
       )}
 

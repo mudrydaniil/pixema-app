@@ -3,8 +3,14 @@ import { get } from '../../config/http-client'
 import { API } from '../../config/api'
 import { CatalogState } from '../../types/movie'
 
+export interface MovieFilters {
+    type: 'ALL' | 'FILM' | 'TV_SERIES' | 'MINI_SERIES' | 'TV_SHOW'
+    year: string
+}
+
 interface ExtendedCatalogState extends CatalogState {
     searchQuery: string
+    filters: MovieFilters
 }
 
 const initialState: ExtendedCatalogState = {
@@ -13,13 +19,37 @@ const initialState: ExtendedCatalogState = {
     isLoading: false,
     error: null,
     searchQuery: '',
+    filters: {
+        type: 'ALL',
+        year: '',
+    }
 }
 
+// Универсальный Thunk для загрузки и фильтрации фильмов
 export const fetchMovies = createAsyncThunk(
     'catalog/fetchMovies',
-    async (page: number, { rejectWithValue }) => {
+    async ({ page, filters }: { page: number; filters: MovieFilters }, { rejectWithValue }) => {
         try {
-            const response = await get(`${API.MOVIES.LIST}&page=${page}`);
+            // Формируем query-параметры для API Кинопоиска
+            const queryParams: string[] = [`page=${page}`]
+
+            if (filters.type !== 'ALL') {
+                queryParams.push(`type=${filters.type}`)
+            }
+            if (filters.year) {
+                // Для фильтрации конкретного года в v2.2/films передается диапазон от и до одинаковым числом
+                queryParams.push(`yearFrom=${filters.year}`)
+                queryParams.push(`yearTo=${filters.year}`)
+            }
+            
+            // Если фильтров нет, можно добавить сортировку по популярности
+            if (filters.type === 'ALL' && !filters.year) {
+                queryParams.push('order=NUM_VOTE')
+            }
+
+            const url = `${API.MOVIES.LIST}?${queryParams.join('&')}`
+            const response = await get(url)
+            
             return { data: response.data, page }
         } catch (error: any) {
             return rejectWithValue(
@@ -27,13 +57,13 @@ export const fetchMovies = createAsyncThunk(
             )
         }
     }
-);
+)
 
 export const searchMovies = createAsyncThunk(
     'catalog/searchMovies',
     async ({ keyword, page }: { keyword: string; page: number }, { rejectWithValue }) => {
         try {
-            const response = await get(API.MOVIES.SEARCH(keyword, page));
+            const response = await get(API.MOVIES.SEARCH(keyword, page))
             return { data: response.data, page }
         } catch (error: any) {
             return rejectWithValue(
@@ -53,6 +83,18 @@ const catalogSlice = createSlice({
                 state.movies = []
             }
         },
+        // Экшен для обновления фильтров
+        setMovieFilters: (state, action: PayloadAction<Partial<MovieFilters>>) => {
+            state.filters = { ...state.filters, ...action.payload }
+            state.movies = [] // Очищаем старые фильмы при изменении фильтра
+            state.total = 0
+        },
+        // Сброс фильтров
+        resetMovieFilters: (state) => {
+            state.filters = initialState.filters
+            state.movies = []
+            state.total = 0
+        },
         clearCatalog: (state) => {
             state.movies = []
             state.total = 0
@@ -67,7 +109,8 @@ const catalogSlice = createSlice({
             .addCase(fetchMovies.fulfilled, (state, action) => {
                 state.isLoading = false
                 
-                const incomingItems = action.payload.data.items || [];
+                // В эндпоинте v2.2/films массив объектов приходит в поле items
+                const incomingItems = action.payload.data.items || action.payload.data.films || []
                 const normalizedItems = incomingItems.map((movie: any) => ({
                     ...movie,
                     kinopoiskId: movie.kinopoiskId || movie.filmId
@@ -79,7 +122,7 @@ const catalogSlice = createSlice({
                     state.movies = [...state.movies, ...normalizedItems].slice(0, action.payload.page * 10)
                 }
                 
-                state.total = action.payload.data.total
+                state.total = action.payload.data.total || 0
             })
             .addCase(fetchMovies.rejected, (state, action) => {
                 state.isLoading = false
@@ -113,5 +156,5 @@ const catalogSlice = createSlice({
     },
 })
 
-export const { setSearchQuery, clearCatalog } = catalogSlice.actions
+export const { setSearchQuery, setMovieFilters, resetMovieFilters, clearCatalog } = catalogSlice.actions
 export default catalogSlice.reducer

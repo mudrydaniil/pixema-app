@@ -1,10 +1,15 @@
+@use '../../assets/styles/variables' as *;
+
 .wrapper {
   width: 100%;
-  margin: 0;
+  max-width: 1120px;
+  margin: 0 auto;
   box-sizing: border-box;
   background-color: #000000;
   color: #ffffff;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  display: flex;
+  flex-direction: column;
+  padding: 0 24px;
 }
 
 .movieContainer {
@@ -12,6 +17,8 @@
   gap: 42px;
   width: 100%;
   box-sizing: border-box;
+  margin-bottom: 56px;
+  align-items: flex-start;
 }
 
 .leftColumn {
@@ -24,10 +31,10 @@
 
 .posterWrapper {
   width: 100%;
-  aspect-ratio: 2 / 3;
+  aspect-ratio: 266 / 357;
   border-radius: 20px;
   overflow: hidden;
-  background-color: #1a1a1a;
+  background-color: #242426;
 
   .poster {
     width: 100%;
@@ -67,24 +74,24 @@
 
 .rightColumn {
   flex: 1;
-  min-width: 0; // КРИТИЧЕСКИ ВАЖНО: заставляет флекс сжиматься до реальных размеров родителя страницы
+  min-width: 0;
   display: flex;
   flex-direction: column;
+}
 
-  .genres {
-    font-size: 14px;
-    color: #7e7e82;
-    margin: 0 0 16px 0;
-    font-weight: 500;
-  }
+.genres {
+  font-size: 14px;
+  color: #7e7e82;
+  margin: 0 0 16px 0;
+  font-weight: 500;
+}
 
-  .title {
-    font-size: 40px;
-    font-weight: 700;
-    line-height: 1.2;
-    color: #ffffff;
-    margin: 0 0 24px 0;
-  }
+.title {
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #ffffff;
+  margin: 0 0 24px 0;
 }
 
 .badges {
@@ -127,7 +134,6 @@
 .infoTable {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 56px;
 
   tr {
     border-bottom: 1px solid #1c1c1e;
@@ -155,10 +161,10 @@
   }
 }
 
-// === СТИЛИ ДЛЯ РЕКОМЕНДАЦИЙ ПО ФИГМЕ ===
 .recommendations {
   width: 100%;
   box-sizing: border-box;
+  margin-top: 24px;
 
   .recHeader {
     display: flex;
@@ -177,7 +183,6 @@
     .recArrows {
       display: flex;
       gap: 16px;
-      margin-right: 4px;
 
       .arrowBtn {
         background: transparent;
@@ -207,13 +212,11 @@
 
 .swiperRoot {
   width: 100%;
-  overflow: hidden !important; 
-  padding-bottom: 24px;
+  overflow: hidden !important;
 }
 
 .swiperSlideItem {
-  // Насильно заставляем каждую карточку занимать ровно 1/4 часть ширины родителя
-  // с учетом трех промежутков (gap) по 24px между четырьмя карточками.
-  width: calc((100% - (24px * 3)) / 4) !important;
-  height: max-content !important;
+  height: auto !important;
+  display: flex;
+  box-sizing: border-box;
 }

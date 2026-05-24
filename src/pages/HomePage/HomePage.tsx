@@ -3,18 +3,17 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchMovies, searchMovies } from '../../redux/slices/catalog-slice'
 import { AppDispatch, RootState } from '../../redux/store'
 import { MovieCard } from '../../components/MovieCard/MovieCard'
+import { MovieGrid } from '../../components/MovieGrid/MovieGrid' // Лучшая практика: импорт презентационной сетки
 
 export const HomePage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { movies, total, isLoading, error, searchQuery } = useSelector((state: RootState) => state.catalog);
   const [currentPage, setCurrentPage] = useState(1);
 
-  // При изменении поисковой строки всегда сбрасываем пагинацию на первую страницу
   useEffect(() => {
     setCurrentPage(1);
   }, [searchQuery]);
 
-  // Запрос данных в зависимости от режима (поиск или каталог)
   useEffect(() => {
     if (searchQuery.trim()) {
       dispatch(searchMovies({ keyword: searchQuery, page: currentPage }));
@@ -28,7 +27,7 @@ export const HomePage = () => {
   };
 
   return (
-    <div className="home-page">
+    <>
       {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
       
       {!isLoading && movies.length === 0 && searchQuery && (
@@ -37,23 +36,33 @@ export const HomePage = () => {
         </p>
       )}
 
-      <div className="movie-grid">
+      {/* Передаем карточки внутрь переиспользуемой сетки */}
+      <MovieGrid>
         {movies.map((movie, index) => (
-          // Ошибка типизации исправлена: filmId удален, данные нормализованы в Redux
           <MovieCard key={`${movie.kinopoiskId}-${index}`} movie={movie} />
         ))}
-      </div>
+      </MovieGrid>
 
-      {/* Кнопка показывается только если загружены не все доступные элементы */}
       {!isLoading && movies.length > 0 && movies.length < total && (
-        <div className="pagination-wrapper">
-          <button className="show-more" onClick={handleShowMore}>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '40px', width: '100%' }}>
+          <button 
+            onClick={handleShowMore}
+            style={{
+              padding: '10px 24px',
+              backgroundColor: '#7b61ff',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '10px',
+              fontWeight: 600,
+              cursor: 'pointer'
+            }}
+          >
             Show more
           </button>
         </div>
       )}
 
       {isLoading && <p style={{ textAlign: 'center', color: '#fff', marginTop: '20px' }}>Loading...</p>}
-    </div>
+    </>
   );
 };

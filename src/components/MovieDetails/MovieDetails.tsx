@@ -43,7 +43,7 @@ export const MovieDetails = ({ movie, staff, similarMovies, boxOffice }: MovieDe
   const boxOfficeItem = boxOffice?.find(item => item.type === 'BUDGET' || item.type === 'WORLD')
   const formattedBoxOffice = boxOfficeItem
     ? `${boxOfficeItem.symbol || '$'}${boxOfficeItem.amount.toLocaleString('en-US')}`
-    : '$381,409,310'
+    : '-'
 
   const releaseYear = movie.year || '-'
   const movieTitle = movie.nameRu || movie.nameOriginal || movie.nameEn || 'Untitled'
@@ -53,7 +53,6 @@ export const MovieDetails = ({ movie, staff, similarMovies, boxOffice }: MovieDe
     <div className={styles.wrapper}>
       <div className={styles.movieContainer}>
         
-        {/* Левая колонка */}
         <div className={styles.leftColumn}>
           <div className={styles.posterWrapper}>
             <img 
@@ -72,7 +71,6 @@ export const MovieDetails = ({ movie, staff, similarMovies, boxOffice }: MovieDe
           </div>
         </div>
 
-        {/* Правая колонка */}
         <div className={styles.rightColumn}>
           <p className={styles.genres}>
             {movie.genres?.map((g: any) => g.genre).join(' • ') || 'Movie Genres'}
@@ -81,8 +79,8 @@ export const MovieDetails = ({ movie, staff, similarMovies, boxOffice }: MovieDe
           <h1 className={styles.title}>{movieTitle}</h1>
 
           <div className={styles.badges}>
-            <span className={styles.ratingKp}>{movie.ratingKinopoisk || 'N/A'}</span>
-            <span className={styles.ratingImdb}>IMDb {movie.ratingImdb || 'N/A'}</span>
+            {movie.ratingKinopoisk && <span className={styles.ratingKp}>{movie.ratingKinopoisk}</span>}
+            {movie.ratingImdb && <span className={styles.ratingImdb}>IMDb {movie.ratingImdb}</span>}
             <span className={styles.runtime}>{movie.filmLength ? `${movie.filmLength} min` : '-'}</span>
           </div>
 
@@ -124,53 +122,50 @@ export const MovieDetails = ({ movie, staff, similarMovies, boxOffice }: MovieDe
               </tr>
             </tbody>
           </table>
-
-          {/* Блок рекомендаций */}
-          {similarMovies && similarMovies.length > 0 && (
-            <div className={styles.recommendations}>
-              <div className={styles.recHeader}>
-                <h2 className={styles.recTitle}>Recommendations</h2>
-                <div className={styles.recArrows}>
-                  <button onClick={() => swiperRef.current?.slidePrev()} className={styles.arrowBtn} aria-label="Previous items">←</button>
-                  <button onClick={() => swiperRef.current?.slideNext()} className={styles.arrowBtn} aria-label="Next items">→</button>
-                </div>
-              </div>
-              
-              <div className={styles.sliderContainer}>
-                <Swiper
-                  modules={[Navigation]}
-                  onBeforeInit={(swiper) => {
-                    swiperRef.current = swiper
-                  }}
-                  spaceBetween={24}
-                  slidesPerView={4}          // Ровно 4 видимые карточки в ряд
-                  slidesPerGroup={1}         // Перелистывание ровно по одной карточке
-                  watchSlidesProgress={true} // Предотвращает баги отображения краев слайдов
-                  grabCursor={true}
-                  className={styles.swiperRoot}
-                >
-                  {similarMovies.map((simMovie, index) => {
-                    const uniqueId = simMovie.filmId || simMovie.kinopoiskId || index
-                    
-                    const formattedMovie = {
-                      ...simMovie,
-                      kinopoiskId: uniqueId,
-                      genres: simMovie.genres || movie.genres 
-                    }
-
-                    return (
-                      <SwiperSlide key={uniqueId} className={styles.swiperSlideItem}>
-                        <MovieCard movie={formattedMovie} />
-                      </SwiperSlide>
-                    )
-                  })}
-                </Swiper>
-              </div>
-            </div>
-          )}
         </div>
-
       </div>
+
+      {similarMovies && similarMovies.length > 0 && (
+        <div className={styles.recommendations}>
+          <div className={styles.recHeader}>
+            <h2 className={styles.recTitle}>Recommendations</h2>
+            <div className={styles.recArrows}>
+              <button onClick={() => swiperRef.current?.slidePrev()} className={styles.arrowBtn}>←</button>
+              <button onClick={() => swiperRef.current?.slideNext()} className={styles.arrowBtn}>→</button>
+            </div>
+          </div>
+          
+          <div className={styles.sliderContainer}>
+            <Swiper
+              modules={[Navigation]}
+              onBeforeInit={(swiper) => {
+                swiperRef.current = swiper
+              }}
+              spaceBetween={24}
+              slidesPerView={4}          
+              slidesPerGroup={1}         
+              watchSlidesProgress={true} 
+              grabCursor={true}
+              className={styles.swiperRoot}
+            >
+              {similarMovies.map((simMovie, index) => {
+                const uniqueId = simMovie.filmId || simMovie.kinopoiskId || index
+                const formattedMovie = {
+                  ...simMovie,
+                  kinopoiskId: uniqueId,
+                  genres: simMovie.genres || movie.genres 
+                }
+
+                return (
+                  <SwiperSlide key={uniqueId} className={styles.swiperSlideItem}>
+                    <MovieCard movie={formattedMovie} />
+                  </SwiperSlide>
+                )
+              })}
+            </Swiper>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

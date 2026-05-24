@@ -4,7 +4,7 @@ import { API } from '../../config/api'
 import { CatalogState } from '../../types/movie'
 
 export interface MovieFilters {
-    order: 'RATING' | 'YEAR'
+    order: 'RATING' | 'YEAR' | 'NUM_VOTE'
     keyword: string
     type: 'ALL' | 'FILM' | 'TV_SERIES' | 'MINI_SERIES'
     yearFrom: string

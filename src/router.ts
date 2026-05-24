@@ -3,6 +3,7 @@ import { Layout } from './components/Layout/Layout'
 import { HomePage } from './pages/HomePage/HomePage'
 import { MoviePage } from './pages/MoviePage/MoviePage'
 import { FavoritesPage } from './pages/FavoritesPage/FavoritesPage'
+import { TrendsPage } from './pages/TrendsPage/TrendsPage'
 
 export const router = createBrowserRouter([
   {
@@ -19,7 +20,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'trends',
-        element: `<h2 style={{color: 'white'}}>Trends</h2>`
+       Component: TrendsPage
       },
       {
         path: 'favorites',

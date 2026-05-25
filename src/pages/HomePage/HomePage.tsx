@@ -26,7 +26,7 @@ export const HomePage = () => {
   }, [dispatch, currentPage, searchQuery, filters])
 
   const handleShowMore = () => {
-    setCurrentPage((prev: number) => prev + 1)
+    setCurrentPage((prevPage: number) => prevPage + 1)
   }
 
   return (
@@ -35,8 +35,8 @@ export const HomePage = () => {
       <FiltersSidebar />
 
       {!isLoading && movies.length === 0 && (
-        <p style={{ color: '#fff', textAlign: 'center', marginTop: '40px' }}>
-          No results match the selected criteria.
+        <p style={{ color: '#ffffff', textAlign: 'center', marginTop: '40px' }}>
+          Нет результатов, соответствующих выбранным критериям.
         </p>
       )}
 
@@ -53,19 +53,19 @@ export const HomePage = () => {
             style={{
               padding: '10px 24px',
               backgroundColor: '#7b61ff',
-              color: '#fff',
+              color: '#ffffff',
               border: 'none',
               borderRadius: '10px',
               fontWeight: 600,
               cursor: 'pointer'
             }}
           >
-            Show more
+            Показать еще
           </button>
         </div>
       )}
 
-      {isLoading && <p style={{ textAlign: 'center', color: '#fff', marginTop: '20px' }}>Loading...</p>}
+      {isLoading && <p style={{ textAlign: 'center', color: '#ffffff', marginTop: '20px' }}>Загрузка...</p>}
     </>
   )
 }

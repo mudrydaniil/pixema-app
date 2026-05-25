@@ -36,7 +36,7 @@ export const MoviePage = (): React.ReactElement => {
   }, [id, dispatch])
 
   if (isDetailsLoading || isStaffLoading || isBoxOfficeLoading) {
-    return <div style={{ color: 'white', padding: '40px' }}>Loading...</div>
+    return <div style={{ color: 'white', padding: '40px' }}>Загрузка...</div>
   }
 
   return (

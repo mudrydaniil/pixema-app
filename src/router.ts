@@ -20,19 +20,19 @@ export const router = createBrowserRouter([
       },
       {
         path: 'trends',
-       Component: TrendsPage
+        Component: TrendsPage
       },
       {
         path: 'favorites',
-       Component: FavoritesPage
+        Component: FavoritesPage
       },
       {
         path: 'settings',
-        element: `<h2 style={{color: 'white'}}>Settings</h2>`
+        element: 'Настройки'
       },
       {
         path: '*',
-        element: `<h2 style={{color: 'white'}}>Not Found</h2>`
+        element: 'Страница не найдена'
       }
     ]
   }

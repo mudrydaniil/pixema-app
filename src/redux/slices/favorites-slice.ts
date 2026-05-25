@@ -10,7 +10,6 @@ const loadFavoritesFromStorage = (): Movie[] => {
     const saved = localStorage.getItem('pixema_favorites')
     return saved ? JSON.parse(saved) : []
   } catch (error) {
-    console.error('Failed to load favorites from localStorage', error)
     return []
   }
 }
@@ -27,7 +26,7 @@ const favoritesSlice = createSlice({
       const movieId = action.payload.kinopoiskId
       
       const movieIndex = state.favorites.findIndex(
-        (m) => m.kinopoiskId === movieId
+        (item) => item.kinopoiskId === movieId
       )
 
       if (movieIndex >= 0) {

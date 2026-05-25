@@ -1,30 +1,30 @@
 export interface Genre {
-    genre: string
+  genre: string
 }
 
 export interface Country {
-    country: string
+  country: string
 }
 
 export interface Movie {
-    kinopoiskId: number
-    nameRu: string | null
-    nameEn: string | null
-    nameOriginal: string | null
-    posterUrl: string
-    posterUrlPreview: string
-    ratingKinopoisk: number | null
-    year: number | null
-    genres: Genre[]
-    countries: Country[]
-    type: string
+  kinopoiskId: number
+  nameRu: string | null
+  nameEn: string | null
+  nameOriginal: string | null
+  posterUrl: string
+  posterUrlPreview: string
+  ratingKinopoisk: number | null
+  year: number | null
+  genres: Genre[]
+  countries: Country[]
+  type: string
 }
 
 export interface CatalogState {
-    movies: Movie[]
-    total: number
-    isLoading: boolean
-    error: string | null
+  movies: Movie[]
+  total: number
+  isLoading: boolean
+  error: string | null
 }
 
 export interface MovieDetail {
@@ -41,13 +41,13 @@ export interface MovieDetail {
   shortDescription: string | null
   type: string
   ratingAgeLimits: string | null
-  genres: { genre: string }[]
-  countries: { country: string }[]
+  genres: Genre[]
+  countries: Country[]
   slogan: string | null
 }
 
 export interface MovieDetailState {
-    movie: MovieDetail | null
-    isLoading: boolean
-    error: string | null
+  movie: MovieDetail | null
+  isLoading: boolean
+  error: string | null
 }

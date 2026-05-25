@@ -15,7 +15,7 @@ export const FavoritesPage = () => {
         marginBottom: '32px',
         marginTop: 0 
       }}>
-        Favorites
+        Избранное
       </h2>
 
       {favorites.length === 0 ? (
@@ -36,7 +36,7 @@ export const FavoritesPage = () => {
               fontWeight: 600, 
               margin: '0 0 8px 0' 
             }}>
-              Why is it so empty here?
+              Почему здесь так пусто?
             </p>
             <p style={{ 
               color: '#7e7e82', 
@@ -44,7 +44,7 @@ export const FavoritesPage = () => {
               fontWeight: 400, 
               margin: 0 
             }}>
-              You haven't saved any movies yet. Click the bookmark icon on any movie card to add it here.
+              Вы еще не сохранили ни одного фильма. Нажмите на значок закладки на карточке фильма, чтобы добавить его сюда.
             </p>
           </div>
         </div>

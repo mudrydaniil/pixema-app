@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setSearchQuery, clearCatalog, setIsFiltersOpen } from '../../redux/slices/catalog-slice'
 import { RootState, AppDispatch } from '../../redux/store'
-import s from './Search.module.scss'
+import styles from './Search.module.scss'
 import FilterIcon from '../../assets/icons/filter.svg?react'
 
 export const Search = () => {
@@ -30,19 +30,19 @@ export const Search = () => {
   }
 
   return (
-    <div className={s.searchWrapper}>
+    <div className={styles.searchWrapper}>
       <input 
-        type="text" 
-        placeholder="Search" 
-        className={s.input} 
+        type='text' 
+        placeholder='Поиск' 
+        className={styles.input} 
         value={localValue}
-        onChange={(e) => setLocalValue(e.target.value)}
+        onChange={(event) => setLocalValue(event.target.value)}
       />
       <button 
-        type="button" 
-        className={s.filterBtn} 
+        type='button' 
+        className={styles.filterBtn} 
         onClick={handleOpenFilters}
-        title="Open filters"
+        title='Открыть фильтры'
       >
         <FilterIcon />
       </button>

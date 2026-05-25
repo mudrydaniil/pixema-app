@@ -28,7 +28,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'settings',
-        element: 'Настройки (Заглушка)'
+        element: 'Настройки'
       },
       {
         path: '*',

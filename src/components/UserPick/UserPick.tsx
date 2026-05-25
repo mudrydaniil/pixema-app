@@ -1,17 +1,17 @@
-import s from './UserPick.module.scss'
+import styles from './UserPick.module.scss'
 import ArrowIcon from '../../assets/icons/arrow-down.svg?react'
 
 export const UserPick = () => {
   return (
-    <div className={s.userPick}>
-      <div className={s.info}>
-        <div className={s.avatar}>
-          <span>AL</span>
+    <div className={styles.userPick}>
+      <div className={styles.info}>
+        <div className={styles.avatar}>
+          <span>АЛ</span>
         </div>
-        <span className={s.name}>Artem Lapitsky</span>
+        <span className={styles.name}>Daniil Mudry</span>
       </div>
 
-      <ArrowIcon className={s.arrow} />
+      <ArrowIcon className={styles.arrow} />
     </div>
   )
 }

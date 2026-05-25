@@ -21,13 +21,12 @@ export const TrendsPage = () => {
     yearFrom: '',
     yearTo: '',
     ratingFrom: '',
-    ratingTo: '',
+    ratingTo: ''
   }
 
   useEffect(() => {
     setCurrentPage(1)
     dispatch(clearCatalog())
-    
     dispatch(fetchMovies({ page: 1, filters: trendFilters }))
 
     return () => {
@@ -42,7 +41,7 @@ export const TrendsPage = () => {
   }, [dispatch, currentPage])
 
   const handleShowMore = () => {
-    setCurrentPage((prev: number) => prev + 1)
+    setCurrentPage((prevPage: number) => prevPage + 1)
   }
 
   return (
@@ -54,14 +53,14 @@ export const TrendsPage = () => {
         marginBottom: '32px',
         marginTop: 0 
       }}>
-        Trends
+        Тренды
       </h2>
 
       {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
 
       {!isLoading && movies.length === 0 && (
-        <p style={{ color: '#fff', textAlign: 'center', marginTop: '40px' }}>
-          No trending movies found.
+        <p style={{ color: '#ffffff', textAlign: 'center', marginTop: '40px' }}>
+          Популярные фильмы не найдены.
         </p>
       )}
 
@@ -78,22 +77,22 @@ export const TrendsPage = () => {
             style={{
               padding: '10px 24px',
               backgroundColor: '#7b61ff',
-              color: '#fff',
+              color: '#ffffff',
               border: 'none',
               borderRadius: '10px',
               fontWeight: 600,
               cursor: 'pointer',
               transition: 'background-color 0.2s ease'
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#6246ea')}
-            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#7b61ff')}
+            onMouseEnter={(event) => (event.currentTarget.style.backgroundColor = '#6246ea')}
+            onMouseLeave={(event) => (event.currentTarget.style.backgroundColor = '#7b61ff')}
           >
-            Show more
+            Показать еще
           </button>
         </div>
       )}
 
-      {isLoading && <p style={{ textAlign: 'center', color: '#fff', marginTop: '20px' }}>Loading trends...</p>}
+      {isLoading && <p style={{ textAlign: 'center', color: '#ffffff', marginTop: '20px' }}>Загрузка трендов...</p>}
     </div>
   )
 }

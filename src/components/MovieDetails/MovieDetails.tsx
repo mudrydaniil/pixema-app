@@ -16,37 +16,37 @@ export const MovieDetails = ({ movie, staff, similarMovies, boxOffice }: MovieDe
   const swiperRef = useRef<any>(null)
 
   const directors = staff
-    ?.filter(p => p.professionKey === 'DIRECTOR')
+    ?.filter(person => person.professionKey === 'DIRECTOR')
     .slice(0, 2)
-    .map(p => p.nameRu || p.nameEn)
+    .map(person => person.nameRu || person.nameEn)
     .join(', ') || '-'
 
   const actors = staff
-    ?.filter(p => p.professionKey === 'ACTOR')
+    ?.filter(person => person.professionKey === 'ACTOR')
     .slice(0, 3)
-    .map(p => p.nameRu || p.nameEn)
+    .map(person => person.nameRu || person.nameEn)
     .join(', ') || '-'
 
   const writers = staff
-    ?.filter(p => p.professionKey === 'WRITER')
+    ?.filter(person => person.professionKey === 'WRITER')
     .slice(0, 2)
-    .map(p => p.nameRu || p.nameEn)
+    .map(person => person.nameRu || person.nameEn)
     .join(', ') || '-'
 
   const producers = staff
-    ?.filter(p => p.professionKey === 'PRODUCER')
+    ?.filter(person => person.professionKey === 'PRODUCER')
     .slice(0, 3)
-    .map(p => p.nameRu || p.nameEn)
+    .map(person => person.nameRu || person.nameEn)
     .join(', ') || '-'
 
-  const boxOfficeItem = boxOffice?.find(item => item.type === 'BUDGET' || item.type === 'WORLD')
+  const boxOfficeItem = boxOffice?.find(boxOfficeItemElement => boxOfficeItemElement.type === 'BUDGET' || boxOfficeItemElement.type === 'WORLD')
   const formattedBoxOffice = boxOfficeItem
-    ? `${boxOfficeItem.symbol || '$'}${boxOfficeItem.amount.toLocaleString('en-US')}`
+    ? `${boxOfficeItem.symbol || '$'}${boxOfficeItem.amount.toLocaleString('ru-RU')}`
     : '-'
 
   const releaseYear = movie.year || '-'
-  const movieTitle = movie.nameRu || movie.nameOriginal || movie.nameEn || 'Untitled'
-  const movieDescription = movie.description || movie.shortDescription || 'No description available.'
+  const movieTitle = movie.nameRu || movie.nameOriginal || movie.nameEn || 'Без названия'
+  const movieDescription = movie.description || movie.shortDescription || 'Описание отсутствует.'
 
   return (
     <div className={styles.wrapper}>
@@ -61,10 +61,10 @@ export const MovieDetails = ({ movie, staff, similarMovies, boxOffice }: MovieDe
             />
           </div>
           <div className={styles.actionButtons}>
-            <button className={styles.btnAction} aria-label="Add to favorites">
+            <button className={styles.btnAction} aria-label='Добавить в избранное'>
               <span className={styles.icon}>🔖</span>
             </button>
-            <button className={styles.btnAction} aria-label="Share movie">
+            <button className={styles.btnAction} aria-label='Поделиться фильмом'>
               <span className={styles.icon}>🔗</span>
             </button>
           </div>
@@ -72,7 +72,7 @@ export const MovieDetails = ({ movie, staff, similarMovies, boxOffice }: MovieDe
 
         <div className={styles.rightColumn}>
           <p className={styles.genres}>
-            {movie.genres?.map((g: any) => g.genre).join(' • ') || 'Movie Genres'}
+            {movie.genres?.map((genreItem: any) => genreItem.genre).join(' • ') || 'Жанры'}
           </p>
           
           <h1 className={styles.title}>{movieTitle}</h1>
@@ -80,7 +80,7 @@ export const MovieDetails = ({ movie, staff, similarMovies, boxOffice }: MovieDe
           <div className={styles.badges}>
             {movie.ratingKinopoisk && <span className={styles.ratingKp}>{movie.ratingKinopoisk}</span>}
             {movie.ratingImdb && <span className={styles.ratingImdb}>IMDb {movie.ratingImdb}</span>}
-            <span className={styles.runtime}>{movie.filmLength ? `${movie.filmLength} min` : '-'}</span>
+            <span className={styles.runtime}>{movie.filmLength ? `${movie.filmLength} мин` : '-'}</span>
           </div>
 
           <p className={styles.description}>{movieDescription}</p>
@@ -88,35 +88,35 @@ export const MovieDetails = ({ movie, staff, similarMovies, boxOffice }: MovieDe
           <table className={styles.infoTable}>
             <tbody>
               <tr>
-                <td>Year</td>
+                <td>Год производства</td>
                 <td>{releaseYear}</td>
               </tr>
               <tr>
-                <td>Released</td>
-                <td>{movie.year ? `15 Jul ${movie.year}` : '-'}</td>
+                <td>Релиз</td>
+                <td>{movie.year ? `15 июля ${movie.year}` : '-'}</td>
               </tr>
               <tr>
-                <td>BoxOffice</td>
+                <td>Бюджет / Сборы</td>
                 <td>{formattedBoxOffice}</td>
               </tr>
               <tr>
-                <td>Country</td>
-                <td>{movie.countries?.map((c: any) => c.country).join(', ') || '-'}</td>
+                <td>Страна</td>
+                <td>{movie.countries?.map((countryItem: any) => countryItem.country).join(', ') || '-'}</td>
               </tr>
               <tr>
-                <td>Production</td>
+                <td>Продюсеры</td>
                 <td>{producers}</td>
               </tr>
               <tr>
-                <td>Actors</td>
+                <td>В главных ролях</td>
                 <td>{actors}</td>
               </tr>
               <tr>
-                <td>Director</td>
+                <td>Режиссеры</td>
                 <td>{directors}</td>
               </tr>
               <tr>
-                <td>Writers</td>
+                <td>Сценаристы</td>
                 <td>{writers}</td>
               </tr>
             </tbody>
@@ -127,7 +127,7 @@ export const MovieDetails = ({ movie, staff, similarMovies, boxOffice }: MovieDe
       {similarMovies && similarMovies.length > 0 && (
         <div className={styles.recommendations}>
           <div className={styles.recHeader}>
-            <h2 className={styles.recTitle}>Recommendations</h2>
+            <h2 className={styles.recTitle}>Рекомендации</h2>
             <div className={styles.recArrows}>
               <button onClick={() => swiperRef.current?.slidePrev()} className={styles.arrowBtn}>←</button>
               <button onClick={() => swiperRef.current?.slideNext()} className={styles.arrowBtn}>→</button>
@@ -137,8 +137,8 @@ export const MovieDetails = ({ movie, staff, similarMovies, boxOffice }: MovieDe
           <div className={styles.sliderContainer}>
             <Swiper
               modules={[Navigation]}
-              onBeforeInit={(swiper) => {
-                swiperRef.current = swiper
+              onBeforeInit={(swiperInstance) => {
+                swiperRef.current = swiperInstance
               }}
               spaceBetween={24}
               slidesPerView={4}          

@@ -14,15 +14,15 @@ export const MovieCard = ({ movie }: MovieCardProps): React.ReactElement => {
   const dispatch = useDispatch()
   
   const movieId = movie.kinopoiskId || (movie as any).filmId
-  const title = movie.nameRu || movie.nameOriginal || 'No title'
+  const title = movie.nameRu || movie.nameOriginal || 'Без названия'
   const genre = movie.genres?.[0]?.genre || ''
 
   const isFavorite = useSelector((state: RootState) =>
-    state.favorites.favorites.some((m) => m.kinopoiskId === movieId)
+    state.favorites.favorites.some((movieItem) => movieItem.kinopoiskId === movieId)
   )
 
-  const handleFavoriteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
+  const handleFavoriteClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
     dispatch(toggleFavorite(movie))
   }
 
@@ -42,10 +42,10 @@ export const MovieCard = ({ movie }: MovieCardProps): React.ReactElement => {
         )}
 
         <button 
-          type="button" 
+          type='button' 
           className={`${styles.favoriteBtn} ${isFavorite ? styles.active : ''}`}
           onClick={handleFavoriteClick}
-          aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+          aria-label={isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}
         >
           <BookmarkIcon />
         </button>

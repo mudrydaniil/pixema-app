@@ -7,8 +7,8 @@ export const store = configureStore({
   reducer: {
     catalog: catalogReducer,
     movie: movieReducer,
-    favorites: favoritesReducer,
-  },
+    favorites: favoritesReducer
+  }
 })
 
 export type RootState = ReturnType<typeof store.getState>
